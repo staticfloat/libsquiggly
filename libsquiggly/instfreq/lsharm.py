@@ -3,7 +3,8 @@ from scipy import *
 from scipy.signal import *
 
 
-
+##### NOTE: I haven't written enough here to really make lsharm useful.
+#####  It's on my TODO list, as Shrek would say
 def lsharm_window(window, freqs, weights=[1, .5, .5], fs=2.0):
 	"""
 	Perform least-harmonic squares analysis [1] on a window of data returning the

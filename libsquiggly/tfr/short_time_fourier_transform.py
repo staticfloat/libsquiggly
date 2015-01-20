@@ -2,7 +2,7 @@ from numpy import *
 from scipy import *
 from scipy.signal import *
 
-def STFT(x, NFFT=256, fs=2.0, noverlap=128, windowfunc=hann, zeropadding="sandwich"):
+def stft(x, NFFT=256, fs=2.0, noverlap=128, windowfunc=hann, zeropadding="sandwich"):
 	"""
 	Calculate the short-time fourier transform of an input signal x
 

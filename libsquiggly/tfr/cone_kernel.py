@@ -84,7 +84,7 @@ class GCKD:
         # Initialize static variables that we won't ever change
         self.N = N
         self.M = 2*N + 1
-        self.alpha = -log(.01)/(abs(N)**2)
+        self.alpha = -log(.001)/(abs(N)**2)
         self.window = empty((N,))
         
         # Build up window now
@@ -118,9 +118,9 @@ class GCKD:
         return 4*array(P)
 
 
-# Given a signal x and a frequency resolution parameter N, calculate the 
+# Given a signal x and a frequency resolution parameter NFFT, calculate the 
 # generalized cone kernel distribution of x across every time point and frequency
-def gckd(x, N):
+def gckd(x, NFFT):
     """
     Convenience method when all you really want to do is crunch through some data.
     Uses `MixedWindow` by default.  Crank up N for a good time, and a warm CPU.
@@ -132,5 +132,5 @@ def gckd(x, N):
     N : int
         Desired frequency resolution in bins.
     """
-    return GCKD( N, MixedWindow ).calculate( x )
+    return GCKD( NFFT, MixedWindow ).calculate( x )
     

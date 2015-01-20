@@ -1,8 +1,5 @@
 from numpy import *
 from scipy import *
-from pylab import *
-from util import *
-import ipdb
 
 # Precalculate X inverse for the x coordinates [-1, 0, 1]
 # We disregard the last row, since we don't care about c
@@ -57,13 +54,13 @@ def windowed_peaktracing(P, sigma=5.0, fs=2):
 		# Build an appropriate window centered on peak_f[t-1]
 		window = exp(-(peak_f[t-1] - arange(P.shape[0]))**2/sigma**2)
 
-		peak_f[t] = cubic_peak_interpolation(P[:,t]*window)
+		peak_f[t] = quadratic_peak_interpolation(P[:,t]*window)
 
 	for t in xrange(max_idx[1]-1, 0, -1):
 		# Build an appropriate window centered on peak_f[t+1]
 		window = exp(-(peak_f[t+1] - arange(P.shape[0]))**2/sigma**2)
 
-		peak_f[t] = cubic_peak_interpolation(P[:,t]*window)
+		peak_f[t] = quadratic_peak_interpolation(P[:,t]*window)
 
 	return peak_f*fs/(2*P.shape[0])
 
