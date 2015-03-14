@@ -22,6 +22,12 @@ def lpc_freqtrack(x, order=8, win_len=128, step=1, fs=2.0):
 		Number of samples to step between windows (default 1)
 	fs : float
 		Sampling rate in Hz (default 2.0)
+
+	Returns
+	-------
+	freq, err : 1-D signal array, 1-D signal array
+		`freq` holds the instantaneous frequency estimates, according to `fs`
+		`err` holds the instantaneous residual error
 	"""
 
 	nlen = int(ceil((len(x) - 1.0*win_len)/step))
@@ -34,9 +40,6 @@ def lpc_freqtrack(x, order=8, win_len=128, step=1, fs=2.0):
 	x = hstack((zeros(pad_len/2), x, zeros(pad_len/2)))
 	
 	for i in range((len(x) - pad_len)/step):
-		#if nlen > 5000 and i % 100 == 0:
-		#	sys.stdout.write("\r[lpc] %.2fs"%(((i+win_len)*step + offset)*1.0/fs))
-		#	sys.stdout.flush()
 		window = x[i*step:i*step + win_len]
 
 		A, lpc_e, k = lpc(window, order)
@@ -45,8 +48,5 @@ def lpc_freqtrack(x, order=8, win_len=128, step=1, fs=2.0):
 
 		lpc_estimates[i] = lpc_f
 		lpc_error[i] = 1.0/lpc_e
-
-	#if nlen > 5000:
-	#	print
 
 	return lpc_estimates, lpc_error
