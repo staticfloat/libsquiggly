@@ -27,7 +27,7 @@ def test_resampling(fs_start, fs_end, N=42):
 	plot(t_end, z_sin)
 	xlabel("Time (s)")
 	ylabel("Amplitude")
-	title("Sinusoidal signal")
+	title("Sinusoidal signal (%.2fHz -> %.2fHz)"%(fs_start, fs_end))
 	legend(["Original", "Cascaded", "Classical"])
 
 	# Now try square wave
@@ -40,7 +40,7 @@ def test_resampling(fs_start, fs_end, N=42):
 	plot(t_end, z_sqr)
 	xlabel("Time (s)")
 	ylabel("Amplitude")
-	title("Square-wave signal")
+	title("Square-wave signal (%.2fHz -> %.2fHz)"%(fs_start, fs_end))
 	legend(["Original", "Cascaded", "Classical"])
 
 	# Now sawtooth wave!
@@ -53,7 +53,7 @@ def test_resampling(fs_start, fs_end, N=42):
 	plot(t_end, z_tri)
 	xlabel("Time (s)")
 	ylabel("Amplitude")
-	title("Sawtooth signal")
+	title("Sawtooth signal (%.2fHz -> %.2fHz)"%(fs_start, fs_end))
 	legend(["Original", "Cascaded", "Classical"])
 
 	

@@ -5,9 +5,13 @@ This repository contains (python) codes useful in all manner of ubiquitous compu
 
 * `instfreq/` contains all code related to instantaneous frequency estimation
 
-* `tfr/` contains all code related to time/frequency representations such as short-time fourier transforms, generalized cone kernel distribution functions
+* `tfr/` contains all code related to time/frequency representations such as short-time fourier transforms and generalized cone kernel distribution functions
+
+* `analysis/` contains all code related to communications-type analysis of timeseries
+
+* `resampling/` contains all code related to resampling timeseries
 
 * `util/` contains utility code such as spectrograms, logging standard output, etc...
 
 
-If you're wondering how on earth to use this code, running the examples in the `tests/` directory is a good place to start.
+If you're wondering how on earth to use this code, running/perusing the examples in the `tests/` directory is a good place to start.
