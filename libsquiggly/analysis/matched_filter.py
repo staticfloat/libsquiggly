@@ -18,7 +18,7 @@ def energy(x, already_demeaned=False):
         return sqrt(real(vdot(x, x)))
 
 
-def matched_filter( data, h, step = 1 ):
+def matched_filter( data, h, step = 1, mode="same" ):
     """
     Perform matched filtering between a datastream and an array representing the template filter
 
@@ -32,13 +32,20 @@ def matched_filter( data, h, step = 1 ):
     step : int (default: 1)
         To save computation time, the output can be pre-emptively decimated before being passed
         out of this function.  Set this number to an integer greater than 1 to skip output samples.
-    
+    mode : string
+        Similar to numpy.convolve(); output length should be "same" or "valid" to disable/enable
+        chomping of output that is due to transient response at the beginning/end of a stream.
+        Note that since this function assumes an infinite stream, it only bothers with the beginning
+
     Return values
     -------------
     data_hat : 1-D signal array stream
         This function acts as a generator, calculating samples on demand.  Use an iteration
         to pull all the data out of it.
     """
+    if not mode in ["same", "valid"]:
+        raise ValueError("Invalid mode, must be either 'same' or 'valid'")
+
     # Demean/normalize h first, so that we never have to do it again
     h = copy(h) - mean(h)
     h = h/energy(h, already_demeaned = True)
@@ -53,6 +60,12 @@ def matched_filter( data, h, step = 1 ):
     for idx in range(step-1):
         buff = roll(buff, -1, 0)
         buff[-1] = next(data)
+
+    # if mode is "valid", skip over any extra samples that we need to to skip the transient response
+    if mode == "valid":
+        for idx in range(len(h) - (step-1)):
+            buff = roll(buff, -1, 0)
+            buff[-1] = next(data)
 
     # Calculate dot product at each point, normalizing out x's energy
     idx = 0
