@@ -1,6 +1,9 @@
 from numpy import *
 from scipy import *
-from scikits.talkbox import lpc
+try:
+	from scikits.talkbox import lpc
+except:
+	print "WARNING: scikits.talkbox not importable; lpc methods unavailable"
 
 
 def lpc_freqtrack(x, order=8, win_len=128, step=1, fs=2.0):
