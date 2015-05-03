@@ -35,8 +35,8 @@ def lpc_freqtrack(x, order=8, win_len=128, step=1, fs=2.0):
 
 	nlen = int(ceil((len(x) - 1.0*win_len)/step))
 
-	lpc_estimates = zeros((len(x)/step,1))
-	lpc_error = zeros((len(x)/step,1))
+	lpc_estimates = zeros(len(x)/step)
+	lpc_error = zeros(len(x)/step)
 
 	# Pad x with zeros
 	pad_len = win_len/step
