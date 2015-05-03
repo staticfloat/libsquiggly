@@ -7,7 +7,7 @@ from fractions import gcd
 try:
 	from upfirdn import upfirdn
 except:
-	print "ERROR: Could not import upfirdn, ensure it is installed to use resampling codes!"
+	print "WARNING: upfirdn not importable; resampling methods unavailable"
 
 
 def resample_cascade(x, fs_start, fs_end, N=42):
