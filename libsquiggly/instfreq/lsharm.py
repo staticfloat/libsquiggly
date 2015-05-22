@@ -3,60 +3,95 @@ from scipy import *
 from scipy.signal import *
 
 
-##### NOTE: I haven't written enough here to really make lsharm useful.
-#####  It's on my TODO list, as Shrek would say
-def lsharm_window(window, freqs, weights=[1, .5, .5], fs=2.0):
+def lsharm_freqtrack(x, freqs=None, weights=[1, .5, .5], fs=2.0, win_len=100, skip=1):
 	"""
-	Perform least-harmonic squares analysis [1] on a window of data returning the
-	dominant frequency component found in that window, as well as the error
+	Anaylze a signal using least-harmonic squares analysis [1] returning the
+	dominant fundamental frequency component found. This analysis is done by
+	"guessing" fundamental frequencies (given in `freqs`) and then summing up
+	spectral energy contained in the fundamental frequency and `len(weights)`
+	integer multiples of that fundamental frequency.  Spectral energy is
+	calculated about each timepoint by applying Goertzel filters to the
+	neighborhood of the time instant under scrutiny. The length of signal
+	analyzed for frequency content is governed by `win_len`.
 
 	Parameters
 	----------
-	window : 1-D signal array
-		Preferrably a numpy array
-	freqs : list
-		List of frequencies to search over (in Hz)
-	weights : list
-		List of weights for harmonics (default [1, .5, .5])
+	x : 1-D signal array
+		The data to be analyzed
+	freqs : 1-D float array
+		Array of fundamental frequencies to search over, in Hz. Default
+		is to search over `linspace( .5*fs/len(weights), fs/len(weights), 100)`
+	weights : 1-D float array
+		The weighting factor to give each harmonic found in the signal, simultaneously
+		controls how many harmonics to take into account (default [1, 0.5, 0.5])
 	fs : float
 		Sampling rate in Hz (default 2.0)
+	win_len : int
+		The window length over which the Goertzel filter will be applied.  Minimum
+		value is 3, defaults to 100
+	skip : int
+		The number of samples to skip the analysis window forward by.  The
+		resulting frequency track will be upsampled after calculation to yield
+		a frequency track of equal length to `x`
+
+	Returns
+	-------
+	freq : 1-D signal array
+		The instantaneous frequency estimates, according to `fs`
 
 	References
 	----------
 	[1] Qin Li; Atlas, L., "Time-variant least squares harmonic modeling,"
 	Acoustics, Speech, and Signal Processing, 2003. Proceedings. (ICASSP '03)
 	"""
-	max_order = len(weights)
-	N = len(window)
 
-	P = zeros((len(freqs), 1))
-	E = zeros((len(freqs), 1))
-	NK = array([arange(N)*(order+1) for order in range(max_order)]).T
-	for idx in range(len(freqs)):
-		f0 = freqs[idx]
+	if freqs is None:
+		freqs = linspace( .5*fs/len(weights), fs/len(weights), 100)
 
-		nyq = min( max_order, int(floor((fs/2)/f0)))
+	# Build Goertzel filterbanks, excluding any filters that exceed nyquist
+	fundamental_filters = {}
+	for f0 in freqs:
+		filterbank = []
+		max_order = min(len(weights), int(fs/(2*f0)))
+		for k in xrange(max_order):
+			b = weights[k]*array([1, -exp(-2j*pi*(k+1)*f0/fs)])
+			a = weights[k]*array([1, -2*cos(2*pi*(k+1)*f0/fs), 1])
+			filterbank += [(b,a)]
+		fundamental_filters[f0] = filterbank
 
-		C = zeros( (nyq, 1), dtype=complex )
-		for k in range(nyq):
-			b = array([1, -exp(-2j*pi*(k+1)*f0/fs)])
-			a = array([1, -2*cos(2*pi*(k+1)*f0/fs), 1])
+	# Zero-pad x so that we can actually perform the Goertzel-filtering at every point
+	datalen = len(x)
+	x = hstack((zeros(win_len/2), x, zeros(win_len/2)))
+	lsharm_estimate = zeros(datalen/skip)
+	
+	for idx in xrange(datalen/skip):
+		# Grab the window of data centered about x[idx] in the original non-padded signal
+		window = x[idx*skip:idx*skip+win_len]
 
-			temp = lfilter( b, a, window)
-			C[k] = exp( -2j*pi*(k+1)*f0/fs*(N-1)) * temp[-1] / sqrt(N)
+		# Calculate total power of each fundamental frequency, as well as error
+		P = zeros(len(freqs))
 
-		P[idx] = norm(dot(weights,C))
+		# For each fundamental frequency, apply Goertzel filters to data:
+		for f_idx in xrange(len(freqs)):
+			f0 = freqs[f_idx]
+			filterbank = fundamental_filters[f0]
+			C = zeros(len(filterbank), dtype=complex)
 
-		# Calculate error
-		T = exp( 1j*2*pi*f0/fs*NK ) / sqrt( N );
-		sym = 2*real( dot(T,weights*abs(C)*exp(1j*angle(C)))).T
-		E[idx] = norm(window - sym)**2
+			for k in xrange(len(filterbank)):
+				# Filter with Goertzel filter
+				temp = lfilter(filterbank[k][0], filterbank[k][1], window)
 
+				# Phase-correct last element of Goertzel filter and square it away in C
+				C[k] = exp( -2j*pi*(k+1)*f0/fs*(win_len-1)) * temp[-1] / sqrt(win_len)
 
-	max_idx = argmax(P)
-	f0 = freqs[max_idx]
-	E0 = E[max_idx]
+			# Store total power of this fundamental frequency
+			P[f_idx] = sqrt(real(vdot(C, C)))
 
-	return f0, E0
+		# Save highest frequency estimate into lsharm_estimage
+		#print freqs
+		lsharm_estimate[idx] = freqs[argmax(P)]
+
+	# Return the goods, after upsampling them
+	return resample(lsharm_estimate, datalen)
 
 

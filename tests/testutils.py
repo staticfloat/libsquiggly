@@ -24,7 +24,35 @@ def gen_fm_track(N, f0, df):
 	return x + 0.1*randn(N), f
 
 
-def gen_hopping_track(N, num_freqs, fmin=0.2, fmax=0.8):
+def gen_harmonic_track(N, K, f0, df):
+	"""
+	Generate a harmonic series of Frequency-Modulated sinusoids in the presence
+	of noise, to test instantaneous-frequency tracking code
+
+	Note that K*(f0 + df) must be less than 1, otherwise aliasing may occur
+
+	Parameters
+	----------
+	N : int
+		Number of samples to generate
+	K : int
+		Number of harmonics to generate
+	f0 : float
+		Center frequency of fundamental frequency (in normalized frequency)
+	df : float
+		Spread of frequency to FM the fundamental frequency, must be less than `f0`
+	"""
+	# Generate FM'ed frequency tracks
+	x = zeros(N)
+	f = f0 + df*sin(arange(N)*2*pi/N)
+	for k in arange(1,K+1):
+		x += sin(arange(N)*pi*f0*k - N/2*df*cos(arange(N)*2*pi/N)*k)*1.05**k
+
+	# Return x in the presence of background noise, as well as the "ground truth" frequency track
+	return x + 0.1*randn(N), f
+
+
+def gen_hopping_track(N, num_freqs, fmin=0.2, fmax=0.6):
 	"""
 	Generate a frequency-hopping sinusoid in the presence of noise, to test
 	instantaneous-frequency tracking code
