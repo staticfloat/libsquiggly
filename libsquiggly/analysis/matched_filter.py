@@ -5,11 +5,17 @@ def energy(x, already_demeaned=False):
     """
     Calculate the energy in x, demeaning if necessary
 
-    Parameters:
+    Parameters
+    ----------
     x : 1-D signal array
         The actual timeseries window to calculate the energy over
     already_demeaned : bool (default: False)
         If the signal has already been demeaned, don't bother calculating the mean again
+
+    Return values
+    -------------
+    energy : float
+        The calculated energy of the input signal
     """
     if not already_demeaned:
         z = x - mean(x)
@@ -24,7 +30,7 @@ def matched_filter( data, h, step = 1, mode="same" ):
 
     Parameters
     ----------
-    data : 1-D signal array stream
+    data : 1-D signal array stream (nditer)
         The actual timeseries to filter through.  This should be an iterator, so if you have
         a numpy array called x, pass in nditer(x) to this function
     h : 1-D signal array
