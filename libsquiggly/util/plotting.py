@@ -1,7 +1,7 @@
 from numpy import *
 from scipy import *
 from scipy.signal import *
-from pylab import *
+from matplotlib.pyplot import *
 from ..tfr import *
 import termios, sys
 ion()
