@@ -1,5 +1,5 @@
 from numpy import *
-from ..util import RollingBuffer
+from ..util import RollingBuffer, make_gen
 
 def rolling_abs_mean(data, N, mode="same"):
 	"""
@@ -7,7 +7,7 @@ def rolling_abs_mean(data, N, mode="same"):
 
 	Parameters
 	----------
-	data : 1-D signal array stream (nditer)
+	data : 1-D signal (array or iterator)
         The actual timeseries to operate on.  This should be an iterator, so
         if you have a numpy array called x, pass in nditer(x) to this function
 	N : integer
@@ -22,6 +22,7 @@ def rolling_abs_mean(data, N, mode="same"):
 	mean : float
 		The mean of the window at its current shift in the data stream
 	"""
+	data = make_gen(data)
 
 	rb = RollingBuffer(N, dtype=float64)
 	# Pre-load so that we're operating in "valid" mode

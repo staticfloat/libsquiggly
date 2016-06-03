@@ -6,4 +6,5 @@
 
 # Ignore setuptools stuff
 build/
-libsquiggly.egg-info
+libsquiggly.egg-info/
+dist/
