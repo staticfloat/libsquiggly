@@ -3,12 +3,7 @@ from scipy import *
 from scipy.signal import remez, resample
 from halfbandfir import halfbandfir
 from fractions import gcd
-
-try:
-	from upfirdn import upfirdn
-except:
-	print "WARNING: upfirdn not importable; resampling methods unavailable"
-
+from upfirdn import upfirdn
 
 def resample_cascade(x, fs_start, fs_end, N=42):
 	"""
@@ -62,4 +57,3 @@ def resample_cascade(x, fs_start, fs_end, N=42):
 		# to finish off, since this guy works just fine for short filers
 		x = resample(x, round(fs_end/fs*len(x)) )
 	return x
-	

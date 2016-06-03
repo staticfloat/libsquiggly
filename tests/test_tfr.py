@@ -2,12 +2,12 @@
 
 # Add '../' to the loading path so we can get at `libsquiggly`:
 import sys, os
-sys.path.insert(1, os.path.join(os.path.dirname(__file__), '../'))
+sys.path.insert(0, os.path.abspath('..'))
 
 from numpy import *
 from scipy import *
-from pylab import *
-from testutils import *
+from matplotlib.pyplot import *
+from utils import *
 from libsquiggly.util import *
 from libsquiggly.tfr import *
 

@@ -1,4 +1,4 @@
-This software is released under the MIT license
+This software, unless otherwise noted, is released under the MIT license
 
 > Copyright (c) 2015: Elliot Saba, Ubiquitous Computing Laboratory,
 > University of Washington, Seattle, Washington, United States of America
@@ -20,3 +20,13 @@ This software is released under the MIT license
 > LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 > OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 > SOFTWARE.
+
+---
+
+The software in `libsquiggly/instfreq/talkbox` is released under the MIT license
+as well, see the `LICENSE.txt` file in that directory.
+
+---
+
+The software in `libsquiggly/resampling/upfirdn` is released under the 3-clause
+BSD license, see the notice at the top of all files in that directory.

@@ -1,7 +1,7 @@
-libsquiggly
-===========
+libsquiggly.py
+==============
 
-This repository contains (python) codes useful in all manner of ubiquitous computing.  Code is organized according to general category.  `libsquiggly` contains the code, while `tests/` contains self-check tests that simultaneously serve as examples on usage. Inside of `libsquiggly`, the code is grouped into multiple folders:
+Libsquiggly consists of python codes useful in all manner of ubiquitous computing.  Code is organized according to general category.  `libsquiggly` contains the code, while `tests/` contains self-check tests that simultaneously serve as examples on usage. Inside of `libsquiggly`, the code is grouped into multiple folders:
 
 * `instfreq/` contains all code related to instantaneous frequency estimation
 

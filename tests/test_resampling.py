@@ -2,15 +2,15 @@
 
 # Add '../' to the loading path so we can get at `libsquiggly`:
 import sys, os
-sys.path.insert(1, os.path.join(os.path.dirname(__file__), '../'))
+sys.path.insert(0, os.path.abspath('..'))
 
 from numpy import *
 from scipy import *
 from scipy.signal import *
-from pylab import *
+from matplotlib.pyplot import *
 from libsquiggly.util import *
 from libsquiggly.resampling import *
-from upfirdn import upfirdn
+from libsquiggly.resampling.upfirdn import upfirdn
 
 
 def test_resampling(fs_start, fs_end, N=42):
@@ -56,7 +56,7 @@ def test_resampling(fs_start, fs_end, N=42):
 	title("Sawtooth signal (%.2fHz -> %.2fHz)"%(fs_start, fs_end))
 	legend(["Original", "Cascaded", "Classical"])
 
-	
+
 
 # Test powers of two, downsampling and upsampling
 fs_start = 8192

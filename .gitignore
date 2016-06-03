@@ -3,3 +3,7 @@
 
 # Ignore .DS_Store files
 .DS_Store
+
+# Ignore setuptools stuff
+build/
+libsquiggly.egg-info

@@ -1,9 +1,6 @@
 from numpy import *
 from scipy import *
-try:
-	from scikits.talkbox import lpc
-except:
-	print "WARNING: scikits.talkbox not importable; lpc methods unavailable"
+from talkbox import lpc
 
 
 def lpc_freqtrack(x, order=8, win_len=128, step=1, fs=2.0):
@@ -41,7 +38,7 @@ def lpc_freqtrack(x, order=8, win_len=128, step=1, fs=2.0):
 	# Pad x with zeros
 	pad_len = win_len/step
 	x = hstack((zeros(pad_len/2), x, zeros(pad_len/2)))
-	
+
 	for i in range((len(x) - pad_len)/step):
 		window = x[i*step:i*step + win_len]
 
