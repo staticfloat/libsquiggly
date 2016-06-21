@@ -41,8 +41,7 @@ def slfilter(b, a, x):
         raise ValueError("Number of filters should be the same")
 
     if not nfr == x.shape[0]:
-        raise ValueError, \
-              "Number of filters and number of frames should be the same"
+        raise ValueError("Number of filters and number of frames should be the same")
 
     y = np.empty((x.shape[0], x.shape[1]), x.dtype)
 

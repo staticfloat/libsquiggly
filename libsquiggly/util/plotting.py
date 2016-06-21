@@ -3,7 +3,7 @@ from scipy import *
 from scipy.signal import *
 from matplotlib.pyplot import *
 from ..tfr import gckd, stft
-import termios, sys
+import sys
 ion()
 
 def imagesc(x, xstart=0, xlim=1, ystart=0, ylim=1, cbar=True):
@@ -53,7 +53,15 @@ def gckdgram(x, NFFT=256, fs=2.0, cbar=True):
 
 def pause():
     # Flush stdin first, so that we don't have to worry about the user pressing something in the past
-    termios.tcflush(sys.stdin,termios.TCIFLUSH)
+    try:
+        # On sane operating systems, use tcflush()
+        from termios import tcflush, TCIFLUSH
+        tcflush(sys.stdin, TCIFLUSH)
+    except ImportError:
+        # On windows, use msvcrt
+        from msvcrt import kbhit, getch
+        while kbhit():
+            getch()
 
     # If we're running using the MacOSX backend, just manually do the show() here
     show(block=False)

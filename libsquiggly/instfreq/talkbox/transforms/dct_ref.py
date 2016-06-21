@@ -42,6 +42,6 @@ def direct_dctii_2(x):
 
 if __name__ == "__main__":
     a = np.linspace(0, 10, 11)
-    print direct_dctii_2(a)
+    print(direct_dctii_2(a))
     a = np.linspace(0, 10, 11)
-    print direct_dctii_2(a)
+    print(direct_dctii_2(a))

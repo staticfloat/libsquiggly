@@ -94,7 +94,7 @@ class ResamplerCase(object):
               self.coef_type.__name__)
             
     def __call__(self):
-        print self
+        print(self)
         self.scrub(np.ones(100), 'ones')
         if self.signal_type == float:
             x = random_state.randn(1000)
@@ -118,8 +118,7 @@ class ResamplerCase(object):
             y = self.__getattribute__(test)(x, out_count)
             test_time = toc()
             nmse = np.sum(abs(y - yr)**2) / np.sum(abs(yr)**2)
-            print '%10s(%5d) %12s nmse = %10f    %10fx' % \
-                (name, len(x), test, nmse, resample_time/test_time)
+            print('%10s(%5d) %12s nmse = %10f    %10fx' % (name, len(x), test, nmse, resample_time/test_time))
             assert nmse < 1e-10
             
         
@@ -171,7 +170,7 @@ class UpfirdnNdCase(object):
         return 'UpfirdnNdCase (%d, %d)'%(self.p, self.q)
 
     def __call__(self):
-        print self
+        print(self)
         ndims = random_state.randint(1,5)
         shape = tuple([random_state.randint(2, 5) for i in range(ndims)])
 
@@ -192,8 +191,8 @@ class UpfirdnNdCase(object):
         h = random_array(hshape[:hdim] + (coefCount,) + hshape[hdim:])
         x = random_array(xshape[:xdim] + (inCount,) + xshape[xdim:])
 
-        print '  xshape =', xshape, '(%s)'%x.dtype
-        print '  hshape =', hshape, '(%s)'%h.dtype
+        print('  xshape =', xshape, '(%s)'%x.dtype)
+        print('  hshape =', hshape, '(%s)'%h.dtype)
 
         y = upfirdn.upfirdn(x, h, self.p, self.q, xdim=xdim, hdim=hdim)
         
@@ -207,7 +206,7 @@ class UpfirdnNdCase(object):
             hi = h[h_idx]
 
             y_expected = upfirdn.upfirdn(xi, hi, self.p, self.q)
-            #print idx, np.mean(abs(yi - y_expected)**2)
+            #print(idx, np.mean(abs(yi - y_expected)**2))
             assert np.allclose(yi, y_expected, 1e-10)
 
 def random_coefs(max_n):

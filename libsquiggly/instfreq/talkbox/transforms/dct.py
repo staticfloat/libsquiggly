@@ -49,5 +49,5 @@ def dctii(x):
 if __name__ == "__main__":
     from dct_ref import direct_dctii_2
     a = np.linspace(0, 10, 11)
-    print direct_dctii_2(a)
-    print dctii(a)
+    print(direct_dctii_2(a))
+    print(dctii(a))
