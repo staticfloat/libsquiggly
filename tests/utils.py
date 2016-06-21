@@ -73,11 +73,10 @@ def gen_hopping_track(N, num_freqs, fmin=0.2, fmax=0.6):
 	freqs = (fmax - fmin)*rand(num_freqs) + fmin
 
 	x = zeros((N,))
-	n_len = N/num_freqs
+	n_len = N // num_freqs
 
 	# Generate sinusoids for each frequency
 	start_phase = 0
-	#ipdb.set_trace()
 	for idx in range(num_freqs):
 		# Generate a sinusoid of the current frequency, save it out to x
 		x[idx*n_len:(idx +1)*n_len] = sin(pi*arange(n_len)*freqs[idx] + start_phase)

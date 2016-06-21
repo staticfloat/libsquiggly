@@ -41,7 +41,7 @@ int array_levinson_1d(PyArrayObject *arr, long order, PyArrayObject** alpccoeff,
                 goto clean_elpc;
 	}
 
-        levinson((double*)(arr->data), order, 
+        levinson((double*)(arr->data), order,
                  (double*)((*alpccoeff)->data), (double*)((*elpc)->data),
                  (double*)((*klpccoeff)->data), tmp);
 
@@ -208,8 +208,28 @@ static PyMethodDef lpcmethods[] = {
 	{"levinson", PyArray_Levinson, METH_VARARGS, NULL}
 };
 
+#if PY_VERSION_HEX >= 0x03000000
+PyMODINIT_FUNC PyInit__lpc(void)
+{
+    static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "_lpc",
+        "LPC module",
+        -1,
+        lpcmethods,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    };
+	PyObject * m = PyModule_Create(&moduledef);
+	import_array();
+	return m;
+}
+#else
 PyMODINIT_FUNC init_lpc(void)
 {
 	Py_InitModule("_lpc", lpcmethods);
 	import_array();
 }
+#endif

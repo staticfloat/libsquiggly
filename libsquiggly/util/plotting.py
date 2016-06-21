@@ -2,7 +2,7 @@ from numpy import *
 from scipy import *
 from scipy.signal import *
 from matplotlib.pyplot import *
-from ..tfr import *
+from ..tfr import gckd, stft
 import termios, sys
 ion()
 
@@ -57,4 +57,7 @@ def pause():
 
     # If we're running using the MacOSX backend, just manually do the show() here
     show(block=False)
-    raw_input("Press any key to continue...")
+    try:
+        raw_input("Press any key to continue...")
+    except NameError:
+        input("Press any key to continue...")

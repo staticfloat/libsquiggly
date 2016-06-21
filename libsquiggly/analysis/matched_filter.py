@@ -126,11 +126,11 @@ def subsample_matched_filter( data, h, M = 5, mode="same" ):
     data = make_gen(data)
 
     # Create one matched filter for each fractional shift we want to perform
-    mfilts = [matched_filter(data.copy(), sinc_fractional_shift(h, idx*1.0/M)) for idx in xrange(M)]
+    mfilts = [matched_filter(data.copy(), sinc_fractional_shift(h, idx*1.0/M)) for idx in range(M)]
 
     while True:
         # Get the outputs of all matched filters
-        mfilt_outputs = array([next(mfilts[idx]) for idx in xrange(M)])
+        mfilt_outputs = array([next(mfilts[idx]) for idx in range(M)])
 
         # Find the maximum absolute value
         maxind = argmax(abs(mfilt_outputs))

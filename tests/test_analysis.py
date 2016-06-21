@@ -7,7 +7,7 @@ sys.path.insert(0, os.path.abspath('..'))
 from numpy import *
 from scipy import *
 from matplotlib.pyplot import *
-from utils import *
+from .utils import *
 from libsquiggly.analysis import *
 from libsquiggly.util import *
 from libsquiggly.resampling import *
@@ -16,7 +16,7 @@ def rand_quad(N):
     """
     Return an array of N random numbers belonging to [-1, 1, j, -j]
     """
-    return array([random.choice([-1, 1, 1j, -1j]) for idx in xrange(N)], dtype=complex64)
+    return array([random.choice([-1, 1, 1j, -1j]) for idx in range(N)], dtype=complex64)
 
 def test_peak_suppression():
     # Our test set of peaks, showing multiple regions of peaks as well as a
@@ -26,8 +26,8 @@ def test_peak_suppression():
     found_peaks = collect(suppress_peaks(peaks, thresh))
 
     if found_peaks != [0,0,3,0,0,0,3,0,0,0,3,0,0]:
-        print "ERROR: Peak suppression test failture!"
-        print found_peaks
+        print("ERROR: Peak suppression test failture!")
+        print(found_peaks)
         return False
     return True
 
@@ -38,7 +38,7 @@ def test_jittered_mfilt():
     N = 1000
 
     # Complex, gaussian noise
-    jdata = .2*randn(N) + .2j*randn(N)
+    jdata = .15*randn(N) + .15j*randn(N)
 
     # This stores the subsample jitter we will apply to the barker codes
     jitter = cumsum(.1*rand(60))
@@ -46,7 +46,7 @@ def test_jittered_mfilt():
     # This stores the modulation we will apply to the barker codes
     symbols = rand_quad(len(jitter))
 
-    for idx in xrange(len(jitter)):
+    for idx in range(len(jitter)):
         startIdx = 200+idx*11
         while jitter[idx] > 1:
             startIdx += 1
@@ -60,6 +60,11 @@ def test_jittered_mfilt():
     det_threshold = 0.9
     peaks = acollect(suppress_peaks(jdata_hat, det_threshold))
     recovered_symbols = peaks[nonzero(peaks)]
+
+    if len(symbols) != len(recovered_symbols):
+        print("ERROR: Recovered %d symbols when we synthesized %d!"%(len(recovered_symbols), len(symbols)))
+        print("(Sometimes this happens, which is kind of terrible, but whatever)")
+        return False
 
     figure()
     plot(abs(jdata_hat), color='r')
@@ -77,7 +82,9 @@ def test_jittered_mfilt():
     ylim([-1.1, 1.1])
     xlim([-1.1, 1.1])
     title("Constellation plot of %d decoded de-jittered symbols (avg error: %.3f)"%(count_nonzero(recovered_symbols), mean(abs(err))));
+    return True
 
+print("Running Analysis tests...")
 test_peak_suppression()
 test_jittered_mfilt()
 pause()

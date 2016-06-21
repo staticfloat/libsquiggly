@@ -31,7 +31,7 @@ def test_resampling(fs_start, fs_end, N=42):
 	legend(["Original", "Cascaded", "Classical"])
 
 	# Now try square wave
-	x_sqr = map(lambda t: int(t*8)%2, t_start)
+	x_sqr = acollect(map(lambda t: int(t*8)%2, t_start))
 	y_sqr = resample_cascade(x_sqr, fs_start, fs_end, N=N)
 	z_sqr = resample(x_sqr, fs_end)
 	figure()
@@ -57,8 +57,10 @@ def test_resampling(fs_start, fs_end, N=42):
 	legend(["Original", "Cascaded", "Classical"])
 
 
+print("Running resampling tests...")
 
 # Test powers of two, downsampling and upsampling
+print("Running 8192 -> 128 -> 8192 tests...")
 fs_start = 8192
 fs_end   = 128
 test_resampling(fs_start, fs_end)
@@ -66,6 +68,7 @@ test_resampling(fs_end, fs_start)
 
 
 # Test non-powers of two
+print("Running 8192 -> 100 -> 8192 tests...")
 fs_start = 8192
 fs_end   = 100
 test_resampling(fs_start, fs_end)

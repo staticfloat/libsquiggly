@@ -1,9 +1,9 @@
 from numpy import *
 from scipy import *
 from scipy.signal import remez, resample
-from halfbandfir import halfbandfir
+from .halfbandfir import halfbandfir
 from fractions import gcd
-from upfirdn import upfirdn
+from .upfirdn import upfirdn
 
 def resample_cascade(x, fs_start, fs_end, N=42):
 	"""
@@ -45,11 +45,11 @@ def resample_cascade(x, fs_start, fs_end, N=42):
 	# Are we upsampling or downsampling?
 	if fs_start < fs_end:
 		for step in range(num_steps):
-			x = 2*upfirdn(x, h, uprate=2)[len(h)/2:-len(h)/2+1]
+			x = 2*upfirdn(x, h, uprate=2)[len(h)//2:-len(h)//2+1]
 		fs = fs_start*(2.0**num_steps)
 	else:
 		for step in range(num_steps):
-			x = upfirdn(x, h, downrate=2)[len(h)/4:-len(h)/4+1]
+			x = upfirdn(x, h, downrate=2)[len(h)//4:-len(h)//4+1]
 		fs = fs_start/(2.0**num_steps)
 
 	if fs != fs_end:

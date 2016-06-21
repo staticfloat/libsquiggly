@@ -36,8 +36,8 @@ def sinc_fractional_shift(x, shift=0.5):
         The shifted signal
     """
     N = len(x)
-    f = hstack((arange((N+1)/2), -arange(N/2, 0, -1)))
+    f = hstack((arange((N+1)//2), -arange(N//2, 0, -1)))
     z = exp(-2j*pi*shift*f/N)
     if N % 2 == 0:
-        z[N/2] = real(z[N/2])
+        z[N//2] = real(z[N//2])
     return real(ifft(fft(x)*z))

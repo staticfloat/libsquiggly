@@ -26,7 +26,7 @@ def rolling_abs_mean(data, N, mode="same"):
 
 	rb = RollingBuffer(N, dtype=float64)
 	# Pre-load so that we're operating in "valid" mode
-	for idx in xrange(N-1):
+	for idx in range(N-1):
 		rb.push(abs(next(data)))
 
 	# Now, give them the mean!

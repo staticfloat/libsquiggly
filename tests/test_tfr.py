@@ -7,12 +7,13 @@ sys.path.insert(0, os.path.abspath('..'))
 from numpy import *
 from scipy import *
 from matplotlib.pyplot import *
-from utils import *
+from .utils import *
 from libsquiggly.util import *
 from libsquiggly.tfr import *
 
 # Generic test harness for our instantaneous-frequency estimation code
 def test_tfr(x, f, sig_name):
+	print("Analyzing %s..."%(sig_name))
 	# Setup spectrogram parameters.
 	NFFT = 512
 	N = len(x)
@@ -36,7 +37,7 @@ def test_tfr(x, f, sig_name):
 	ylabel("Frequency (normalized)")
 
 
-
+print("Running time/frequency representation tests...")
 
 # 8 Ki-samples seems like a good number here
 N = 8196

@@ -17,8 +17,8 @@ def direct_dctii(x):
     Use it as a reference only, it is not suitable for any real computation."""
     n = x.size
     a = np.empty((n, n), dtype = x.dtype)
-    for i in xrange(n):
-        for j in xrange(n):
+    for i in range(n):
+        for j in range(n):
             a[i, j] = x[j] * np.cos(np.pi * (0.5 + j) * i / n)
 
     a[0] *= np.sqrt(1. / n)

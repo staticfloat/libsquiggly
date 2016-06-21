@@ -17,7 +17,7 @@ def quadratic_peak_interpolation(P_slice):
 	Parameters
 	----------
 	P_slice : 1-D array
-		The discrete PSD estimate 
+		The discrete PSD estimate
 	"""
 	# Get the peak index
 	peak_idx = min(max(argmax(P_slice),1), len(P_slice)-2)
@@ -50,13 +50,13 @@ def windowed_peaktracing(P, sigma=5.0, fs=2):
 	# Step forward and backward
 	peak_f = zeros((P.shape[1],))
 	peak_f[max_idx[1]] = max_idx[0]
-	for t in xrange(max_idx[1]+1, P.shape[1]):
+	for t in range(max_idx[1]+1, P.shape[1]):
 		# Build an appropriate window centered on peak_f[t-1]
 		window = exp(-(peak_f[t-1] - arange(P.shape[0]))**2/sigma**2)
 
 		peak_f[t] = quadratic_peak_interpolation(P[:,t]*window)
 
-	for t in xrange(max_idx[1]-1, 0, -1):
+	for t in range(max_idx[1]-1, 0, -1):
 		# Build an appropriate window centered on peak_f[t+1]
 		window = exp(-(peak_f[t+1] - arange(P.shape[0]))**2/sigma**2)
 
@@ -81,12 +81,11 @@ def guided_peaktracing(P, guide, sigma=5.0, fs=2.0):
 		The sampling rate (in Hz) of the signal (default 2.0)
 	"""
 	peak_f = zeros((P.shape[1],))
-	for t in xrange(P.shape[1]):
+	for t in range(P.shape[1]):
 		guide_idx = guide[t]*2*P.shape[0]/fs
 		# Build an appropriate window centered on peak_f[t+1]
 		window = exp(-(guide_idx - arange(P.shape[0]))**2/sigma**2)
-		
+
 		peak_f[t] = quadratic_peak_interpolation(P[:,t]*window)
 
 	return peak_f*fs/(2*P.shape[0])
-

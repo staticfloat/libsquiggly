@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import print_function
 
 # Add '../' to the loading path so we can get at `libsquiggly`:
 import sys, os
@@ -7,7 +8,7 @@ sys.path.insert(0, os.path.abspath('..'))
 from numpy import *
 from scipy import *
 from matplotlib.pyplot import *
-from utils import *
+from .utils import *
 from libsquiggly.util import *
 from libsquiggly.instfreq import *
 from libsquiggly.tfr import *
@@ -15,7 +16,7 @@ from libsquiggly.tfr import *
 
 # Generic test harness for our instantaneous-frequency estimation code
 def test_instfreq(x, f, sig_name):
-	print "Begin testing", sig_name
+	print("Begin testing", sig_name)
 	# Setup spectrogram parameters.  Note that we use spectrogram to calculate
 	# the STFT for TFR-based estimation methods such as max_peak and peaktracing
 	NFFT=256
@@ -25,7 +26,7 @@ def test_instfreq(x, f, sig_name):
 
 	# Always plot into a new figure
 	figure()
-	print "Calculating spectrogram..."
+	print("Calculating spectrogram...")
 	P = spectrogram(x, NFFT=NFFT, noverlap=NFFT-1, fs=fs, cbar=False)
 
 	# Calculate frequency tracks.  Note that TFR-based estimation methods such as
@@ -33,15 +34,15 @@ def test_instfreq(x, f, sig_name):
 	# STFT time bins.  In this case, noverlap = NFFT-1, therefore the time bins
 	# are just samples, but in general you won't have such densely overlapped bins
 	# in time, and thus you will need to calculate a proper time base.
-	print "Calculating maxpeak..."
+	print("Calculating maxpeak...")
 	f_maxpeak = max_peak(P, fs)
-	print "Calculating lsharm..."
+	print("Calculating lsharm...")
 	f_lsharm = lsharm_freqtrack(x, freqs=linspace(0.1, 1, 200), weights=[1,.5,.5,.5,.5], fs=fs, skip=10)
-	print "Calculating guided_peaktracing..."
+	print("Calculating guided_peaktracing...")
 	f_guided = guided_peaktracing(P, guide=f_maxpeak, sigma=15.0, fs=fs)
-	print "Calculating windowed_peaktracing..."
+	print("Calculating windowed_peaktracing...")
 	f_windowed = windowed_peaktracing(P, sigma=15.0, fs=fs)
-	print "Calculating lpc..."
+	print("Calculating lpc...")
 	f_lpc, lpc_error = lpc_freqtrack(x, order=2, fs=fs)
 
 	# Plot everything over the spectrogram
@@ -59,9 +60,10 @@ def test_instfreq(x, f, sig_name):
 	legend(["Ground truth", "least-squares harmonic", "max_peak", "guided_peaktracing", "windowed_peaktracing", "lpc"])
 	draw()
 	show(False)
-	print
+	print()
 
 
+print("Running instantaneous frequency tests...")
 
 # 8 Ki-samples seems like a good number here
 N = 8196

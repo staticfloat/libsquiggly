@@ -1,6 +1,6 @@
 from numpy import *
 from scipy import *
-from talkbox import lpc
+from .talkbox import lpc
 
 
 def lpc_freqtrack(x, order=8, win_len=128, step=1, fs=2.0):
@@ -32,14 +32,14 @@ def lpc_freqtrack(x, order=8, win_len=128, step=1, fs=2.0):
 
 	nlen = int(ceil((len(x) - 1.0*win_len)/step))
 
-	lpc_estimates = zeros(len(x)/step)
-	lpc_error = zeros(len(x)/step)
+	lpc_estimates = zeros(len(x)//step)
+	lpc_error = zeros(len(x)//step)
 
 	# Pad x with zeros
-	pad_len = win_len/step
-	x = hstack((zeros(pad_len/2), x, zeros(pad_len/2)))
+	pad_len = win_len//step
+	x = hstack((zeros(pad_len//2), x, zeros(pad_len//2)))
 
-	for i in range((len(x) - pad_len)/step):
+	for i in range((len(x) - pad_len)//step):
 		window = x[i*step:i*step + win_len]
 
 		A, lpc_e, k = lpc(window, order)

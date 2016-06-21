@@ -63,7 +63,7 @@ def MixedWindow( tau, alpha ):
     """
     return g( tau, beta = 1, p = 2, c = 1, alpha = alpha )
 
-    
+
 class GCKD:
     """
     Calculate the Generalized Cone-Kernel Distribution of signals, providing superior resolution
@@ -71,7 +71,7 @@ class GCKD:
     short-time fourier transform or Wigner distribution.
 
     Construct this object with the desired parameters, then calculate the GCKD with the calculate()
-    member function, passing in the desired 
+    member function, passing in the desired
 
     Constructor parameters
     ----------------------
@@ -86,19 +86,19 @@ class GCKD:
         self.M = 2*N + 1
         self.alpha = -log(.001)/(abs(N)**2)
         self.window = empty((N,))
-        
+
         # Build up window now
         self.window[0] = 0.5*g_hat( 0, alpha=self.alpha )
-        for k in xrange(1,N):
+        for k in range(1,N):
             self.window[k] = g_hat( k, alpha=self.alpha )
-    
+
 
     def y( self, x, L, n, k ):
         v0 = n + k + 4*L
         v1 = n + 4*L
         a_k = abs(k)
         return vdot(x[v0 - a_k:v0 + a_k], x[v1 - a_k:v1 + a_k])
-        
+
     def calculate( self, x ):
         # Gotta do this padding first
         self.xLen = len(x)
@@ -106,19 +106,19 @@ class GCKD:
 
         # Copy these out just to save on some typing
         cx = conj(x)
+        window = self.window
+        y = self.y
         N = self.N
+        N_2 = N//2
         M = self.M
-        
-        P = zeros((self.N/2, self.xLen))
-        for n in xrange(self.xLen):
-            #sys.stdout.write("\r[gckd] %d/%d"%(n,self.xLen))
-            #sys.stdout.flush()
-            P[:,n] = real(fft([(self.window[k] * self.y(x, N, n, k)) for k in xrange(N)]))[1:N/2+1]
-        #print
+
+        P = zeros((N_2, self.xLen))
+        for n in range(self.xLen):
+            P[:,n] = real(fft([(window[k] * y(x, N, n, k)) for k in range(N)]))[1:N_2+1]
         return 4*array(P)
 
 
-# Given a signal x and a frequency resolution parameter NFFT, calculate the 
+# Given a signal x and a frequency resolution parameter NFFT, calculate the
 # generalized cone kernel distribution of x across every time point and frequency
 def gckd(x, NFFT):
     """
@@ -133,4 +133,3 @@ def gckd(x, NFFT):
         Desired frequency resolution in bins.
     """
     return GCKD( NFFT, MixedWindow ).calculate( x )
-    

@@ -10,7 +10,7 @@ def stft(x, NFFT=256, fs=2.0, noverlap=128, windowfunc=hann, zeropadding="sandwi
 	----------
 	x : 1-D signal array
 		Preferrably a numpy array
-	NFFT : int 
+	NFFT : int
 		Desired frequency resolution in bins (default 256)
 	fs : float
 		Sampling rate in Hz (default 2.0)
@@ -33,26 +33,19 @@ def stft(x, NFFT=256, fs=2.0, noverlap=128, windowfunc=hann, zeropadding="sandwi
 	step = (NFFT-noverlap)
 	pad_amnt = step - len(x)%step
 
-	nlen = len(x)/step
-	P = empty((NFFT/2,nlen))
+	nlen = len(x)//step
+	NFFT_2 = NFFT//2
+	P = empty((NFFT_2,nlen))
 	window = windowfunc(NFFT)
 
 	if zeropadding == "sandwich":
-		x = hstack((zeros(NFFT/2), x, zeros(NFFT/2 + pad_amnt)))
+		x = hstack((zeros(NFFT_2), x, zeros(NFFT_2 + pad_amnt)))
 	elif zeropadding == "after":
 		x = hstack((x, zeros(pad_amnt)))
 	else:
 		raise ValueError("Unrecognized `zeropadding` value: " + zeropadding)
 
-	for idx in xrange(nlen):
-		#if nlen > 5000 and idx % 441 == 0:
-		#	sys.stdout.write("\r[stft] %.2fs"%((idx*step + offset)/fs))
-		#	sys.stdout.flush()
+	for idx in range(nlen):
 		x_slice = x[idx*step:idx*step + NFFT]
-		P[:,idx] = abs(fft(x_slice*window)[:NFFT/2])
-
-	#if nlen > 5000:
-	#	sys.stdout.write("\r[stft] %.2fs\n"%((nlen*step + offset)/fs))
-	#	sys.stdout.flush()
+		P[:,idx] = abs(fft(x_slice*window)[:NFFT_2])
 	return P
-

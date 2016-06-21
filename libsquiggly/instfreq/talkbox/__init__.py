@@ -1,14 +1,14 @@
 __all__ = []
 
-from tools import *
-import tools
+from .tools import *
+from . import tools
 __all__ += tools.__all__
 
-import linpred
-from linpred import *
+from .import linpred
+from .linpred import *
 __all__ += linpred.__all__
 
-import version
+from . import version
 
 from numpy.testing import Tester
 
