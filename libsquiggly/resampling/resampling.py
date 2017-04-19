@@ -55,5 +55,5 @@ def resample_cascade(x, fs_start, fs_end, N=42):
 	if fs != fs_end:
 		# Now that we're less than a power of two off, we use the typical resample filter
 		# to finish off, since this guy works just fine for short filers
-		x = resample(x, round(fs_end/fs*len(x)) )
+		x = resample(x, int(round(fs_end/fs*len(x))) )
 	return x
