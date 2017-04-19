@@ -2,6 +2,7 @@ from numpy import *
 from scipy import *
 from scipy.signal import remez, firwin2
 
+
 def halfbandfir(N):
     """
     Generate a halfband filter as an efficient, correct multirate downsampling filter.
@@ -25,19 +26,20 @@ def halfbandfir(N):
     if N < 2:
         raise ValueError("N cannot be less than 2!")
 
-    R = (N - 2)/4
-    if R*4 + 2 != N:
+    R = (N - 2) / 4
+    if R * 4 + 2 != N:
         raise ValueError("N must conform to (i + 2)*4, where i is an integer!")
 
     # Create filter with symmetric regions about fs/4
     #h = remez(N+1, bands=[0, 0.48, 0.52, 1], desired=[1, 0], weight=[1,1], Hz=2)
-    h = firwin2(N+1, freq=[0, 0.48, 0.52, 1], gain=[1, 1, 0, 0], window=("kaiser", 10))
+    h = firwin2(N + 1, freq=[0, 0.48, 0.52, 1],
+                gain=[1, 1, 0, 0], window=("kaiser", 10))
 
     # Force down the impulse response to zero on every other sample
     h[1::2] = 0
 
     # This is mucho importanto!
-    h[N//2] = .5
+    h[N // 2] = .5
 
     # Auto-convolve to get zero phase response :P
-    return convolve(h,h)
+    return convolve(h, h)

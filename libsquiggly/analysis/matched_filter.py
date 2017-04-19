@@ -2,6 +2,7 @@ from numpy import *
 from ..util import make_gen
 from ..resampling import sinc_fractional_shift
 
+
 def energy(x, demeaned=False):
     """
     Calculate the energy in x, demeaning if necessary
@@ -25,7 +26,7 @@ def energy(x, demeaned=False):
         return sqrt(real(vdot(x, x)))
 
 
-def matched_filter( data, h, step = 1, mode="same" ):
+def matched_filter(data, h, step=1, mode="same"):
     """
     Perform matched filtering between a datastream and an array representing the template filter
     The result from this function is normalized to fall within the range [0, 1]
@@ -57,7 +58,7 @@ def matched_filter( data, h, step = 1, mode="same" ):
 
     # Demean/normalize h first, so that we never have to do it again
     h = copy(h) - mean(h)
-    h = h/energy(h, demeaned = True)
+    h = h / energy(h, demeaned=True)
     h_len = len(h)
 
     # Grab the first element
@@ -66,13 +67,14 @@ def matched_filter( data, h, step = 1, mode="same" ):
     # Load in a single step
     buff = zeros((len(h),), x.dtype)
     buff[-1] = x
-    for idx in range(step-1):
+    for idx in range(step - 1):
         buff = roll(buff, -1, 0)
         buff[-1] = next(data)
 
-    # if mode is "valid", skip over any extra samples that we need to to skip the transient response
+    # if mode is "valid", skip over any extra samples that we need to to skip
+    # the transient response
     if mode == "valid":
-        for idx in range(len(h) - (step-1)):
+        for idx in range(len(h) - (step - 1)):
             buff = roll(buff, -1, 0)
             buff[-1] = next(data)
 
@@ -84,13 +86,14 @@ def matched_filter( data, h, step = 1, mode="same" ):
         if x_slice_energy == 0.0:
             yield 0.0
         else:
-            yield dot(x_slice, h)/x_slice_energy
+            yield dot(x_slice, h) / x_slice_energy
 
         for idx in range(step):
             buff = roll(buff, -1, 0)
             buff[-1] = next(data)
 
-def subsample_matched_filter( data, h, M = 5, mode="same" ):
+
+def subsample_matched_filter(data, h, M=5, mode="same"):
     """
     Perform matched filtering between a datastream and an array representing the template filter
     The result from this function is normalized to fall within the range [0, 1]
@@ -126,7 +129,8 @@ def subsample_matched_filter( data, h, M = 5, mode="same" ):
     data = make_gen(data)
 
     # Create one matched filter for each fractional shift we want to perform
-    mfilts = [matched_filter(data.copy(), sinc_fractional_shift(h, idx*1.0/M)) for idx in range(M)]
+    mfilts = [matched_filter(data.copy(), sinc_fractional_shift(
+        h, idx * 1.0 / M)) for idx in range(M)]
 
     while True:
         # Get the outputs of all matched filters

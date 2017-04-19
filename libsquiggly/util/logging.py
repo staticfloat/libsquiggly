@@ -1,6 +1,8 @@
 import sys
 
 # Used for logging stdout to a file
+
+
 class Tee(object):
     """
     Helper class for capturing output headed to a file-like object and writing it
@@ -16,6 +18,7 @@ class Tee(object):
     mode : string
         The `open()` modestring the logfile will be opened with. Ex: 'wt'
     """
+
     def __init__(self, file_obj, filename, mode):
         self.file = open(filename, mode)
         self.file_obj = file_obj
@@ -36,6 +39,7 @@ class Tee(object):
     def __del__(self):
         self.close()
 
+
 def start_logging(logfile):
     """
     Begin logging all output to a logfile, while still printing it out to the console
@@ -46,6 +50,7 @@ def start_logging(logfile):
         Filename of the logfile all output will be recorded to
     """
     sys.stdout = Tee(sys.stdout, logfile, 'wt')
+
 
 def stop_logging(tee=sys.stdout):
     """

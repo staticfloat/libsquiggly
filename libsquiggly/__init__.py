@@ -1,4 +1,6 @@
-import os, sys, importlib
+import os
+import sys
+import importlib
 
 # Loop over every directory beneath us that has a __init__.py inside of it
 root_dir = os.path.dirname(__file__)

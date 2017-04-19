@@ -1,5 +1,6 @@
 from numpy import *
 
+
 def make_gen(x):
     """
     Given sequential data (array, iterator, generator, nditer, etc...) return
@@ -19,6 +20,7 @@ def collect(collection):
     Given some kind of iterator called collection, return [x for x in collection]
     """
     return [x for x in collection]
+
 
 def acollect(collection):
     """

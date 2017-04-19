@@ -1,11 +1,13 @@
 from numpy import *
 from ..util import make_gen
 
+
 def mask_peaks(peaks):
     """
     Given a window of peaks, mask all but the maximum to zero
     """
     return array(peaks) * (arange(len(peaks)) == argmax(peaks))
+
 
 def suppress_peaks(data, thresh):
     """
@@ -53,4 +55,4 @@ def suppress_peaks(data, thresh):
 
         # No matter what, we always yield a 0 here for the last data point that
         # didn't exceed thresh
-        yield data_win[0]*0
+        yield data_win[0] * 0

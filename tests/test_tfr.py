@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 # Add '../' to the loading path so we can get at `libsquiggly`:
-import sys, os
+import sys
+import os
 sys.path.insert(0, os.path.abspath('..'))
 
 from numpy import *
@@ -12,29 +13,31 @@ from libsquiggly.util import *
 from libsquiggly.tfr import *
 
 # Generic test harness for our instantaneous-frequency estimation code
+
+
 def test_tfr(x, f, sig_name):
-	print("Analyzing %s..."%(sig_name))
-	# Setup spectrogram parameters.
-	NFFT = 512
-	N = len(x)
-	fs = 2.0
-	t = linspace(0,N/fs,N)
+    print("Analyzing %s..." % (sig_name))
+    # Setup spectrogram parameters.
+    NFFT = 512
+    N = len(x)
+    fs = 2.0
+    t = linspace(0, N / fs, N)
 
-	# Plot the spectrogram
-	figure()
-	P_stft = spectrogram(x, NFFT=NFFT, noverlap=NFFT-1, fs=fs, cbar=False)
-	#plot(t, f)
-	title("Spectrogram of " + sig_name)
-	xlabel("Samples")
-	ylabel("Frequency (normalized)")
+    # Plot the spectrogram
+    figure()
+    P_stft = spectrogram(x, NFFT=NFFT, noverlap=NFFT - 1, fs=fs, cbar=False)
+    #plot(t, f)
+    title("Spectrogram of " + sig_name)
+    xlabel("Samples")
+    ylabel("Frequency (normalized)")
 
-	# Plot the GCKD
-	figure()
-	P_gckd = gckdgram(x, NFFT=NFFT, fs=fs, cbar=False)
-	#plot(t, f)
-	title("GCKD-gram of " + sig_name)
-	xlabel("Samples")
-	ylabel("Frequency (normalized)")
+    # Plot the GCKD
+    figure()
+    P_gckd = gckdgram(x, NFFT=NFFT, fs=fs, cbar=False)
+    #plot(t, f)
+    title("GCKD-gram of " + sig_name)
+    xlabel("Samples")
+    ylabel("Frequency (normalized)")
 
 
 print("Running time/frequency representation tests...")

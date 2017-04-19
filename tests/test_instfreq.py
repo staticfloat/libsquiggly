@@ -2,7 +2,8 @@
 from __future__ import print_function
 
 # Add '../' to the loading path so we can get at `libsquiggly`:
-import sys, os
+import sys
+import os
 sys.path.insert(0, os.path.abspath('..'))
 
 from numpy import *
@@ -16,51 +17,54 @@ from libsquiggly.tfr import *
 
 # Generic test harness for our instantaneous-frequency estimation code
 def test_instfreq(x, f, sig_name):
-	print("Begin testing", sig_name)
-	# Setup spectrogram parameters.  Note that we use spectrogram to calculate
-	# the STFT for TFR-based estimation methods such as max_peak and peaktracing
-	NFFT=256
-	N = len(x)
-	fs = 2.0
-	t = linspace(0,N/fs,N)
+    print("Begin testing", sig_name)
+    # Setup spectrogram parameters.  Note that we use spectrogram to calculate
+    # the STFT for TFR-based estimation methods such as max_peak and
+    # peaktracing
+    NFFT = 256
+    N = len(x)
+    fs = 2.0
+    t = linspace(0, N / fs, N)
 
-	# Always plot into a new figure
-	figure()
-	print("Calculating spectrogram...")
-	P = spectrogram(x, NFFT=NFFT, noverlap=NFFT-1, fs=fs, cbar=False)
+    # Always plot into a new figure
+    figure()
+    print("Calculating spectrogram...")
+    P = spectrogram(x, NFFT=NFFT, noverlap=NFFT - 1, fs=fs, cbar=False)
 
-	# Calculate frequency tracks.  Note that TFR-based estimation methods such as
-	# max_peak and anything with peaktracing in the name are indexed in time by
-	# STFT time bins.  In this case, noverlap = NFFT-1, therefore the time bins
-	# are just samples, but in general you won't have such densely overlapped bins
-	# in time, and thus you will need to calculate a proper time base.
-	print("Calculating maxpeak...")
-	f_maxpeak = max_peak(P, fs)
-	print("Calculating lsharm...")
-	f_lsharm = lsharm_freqtrack(x, freqs=linspace(0.1, 1, 200), weights=[1,.5,.5,.5,.5], fs=fs, skip=10)
-	print("Calculating guided_peaktracing...")
-	f_guided = guided_peaktracing(P, guide=f_maxpeak, sigma=15.0, fs=fs)
-	print("Calculating windowed_peaktracing...")
-	f_windowed = windowed_peaktracing(P, sigma=15.0, fs=fs)
-	print("Calculating lpc...")
-	f_lpc, lpc_error = lpc_freqtrack(x, order=2, fs=fs)
+    # Calculate frequency tracks.  Note that TFR-based estimation methods such as
+    # max_peak and anything with peaktracing in the name are indexed in time by
+    # STFT time bins.  In this case, noverlap = NFFT-1, therefore the time bins
+    # are just samples, but in general you won't have such densely overlapped bins
+    # in time, and thus you will need to calculate a proper time base.
+    print("Calculating maxpeak...")
+    f_maxpeak = max_peak(P, fs)
+    print("Calculating lsharm...")
+    f_lsharm = lsharm_freqtrack(x, freqs=linspace(0.1, 1, 200), weights=[
+                                1, .5, .5, .5, .5], fs=fs, skip=10)
+    print("Calculating guided_peaktracing...")
+    f_guided = guided_peaktracing(P, guide=f_maxpeak, sigma=15.0, fs=fs)
+    print("Calculating windowed_peaktracing...")
+    f_windowed = windowed_peaktracing(P, sigma=15.0, fs=fs)
+    print("Calculating lpc...")
+    f_lpc, lpc_error = lpc_freqtrack(x, order=2, fs=fs)
 
-	# Plot everything over the spectrogram
-	plot(t, f)
-	plot(t, f_lsharm)
-	plot(t, f_maxpeak)
-	plot(t, f_guided)
-	plot(t, f_windowed)
-	plot(t, f_lpc)
+    # Plot everything over the spectrogram
+    plot(t, f)
+    plot(t, f_lsharm)
+    plot(t, f_maxpeak)
+    plot(t, f_guided)
+    plot(t, f_windowed)
+    plot(t, f_lpc)
 
-	# Make it look all "professional"
-	title("Spectrogram of " + sig_name)
-	xlabel("Samples")
-	ylabel("Frequency (normalized)")
-	legend(["Ground truth", "least-squares harmonic", "max_peak", "guided_peaktracing", "windowed_peaktracing", "lpc"])
-	draw()
-	show(False)
-	print()
+    # Make it look all "professional"
+    title("Spectrogram of " + sig_name)
+    xlabel("Samples")
+    ylabel("Frequency (normalized)")
+    legend(["Ground truth", "least-squares harmonic", "max_peak",
+            "guided_peaktracing", "windowed_peaktracing", "lpc"])
+    draw()
+    show(False)
+    print()
 
 
 print("Running instantaneous frequency tests...")
