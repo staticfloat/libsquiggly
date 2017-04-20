@@ -1,17 +1,12 @@
 #!/usr/bin/env python
 
-# Add '../' to the loading path so we can get at `libsquiggly`:
-import sys
-import os
-sys.path.insert(0, os.path.abspath('..'))
-
 from numpy import *
 from scipy import *
 from matplotlib.pyplot import *
-from .utils import *
-from libsquiggly.analysis import *
-from libsquiggly.util import *
-from libsquiggly.resampling import *
+from utils import *
+from ..analysis import *
+from ..util import *
+from ..resampling import *
 
 
 def rand_quad(N):
@@ -21,7 +16,7 @@ def rand_quad(N):
     return array([random.choice([-1, 1, 1j, -1j]) for idx in range(N)], dtype=complex64)
 
 
-def test_peak_suppression():
+def do_peak_suppression_test():
     # Our test set of peaks, showing multiple regions of peaks as well as a
     # region that continues right up to the end of the array:
     peaks = [1, 2, 3, 2, 1, 2, 3, 2, 1, 2, 3, 3, 3]
@@ -35,7 +30,7 @@ def test_peak_suppression():
     return True
 
 
-def test_jittered_mfilt():
+def do_jittered_mfilt_test():
     # Give ourselves a nice spreading sequence
     barker = array([1, -1, 1, 1, -1, 1, 1, 1, -1, -1, -1])
     N = 1000
@@ -71,12 +66,14 @@ def test_jittered_mfilt():
         print("(Sometimes this happens, which is kind of terrible, but whatever)")
         return False
 
-    figure()
+    f = figure()
     plot(abs(jdata_hat), color='r')
     ylim([0, 1])
     title("Recovered jitterbug")
+    savefig("figures/analysis_jitterbug.eps")
+    close(f)
 
-    figure()
+    f = figure()
     jdata_plot = scatter(real(jdata_hat), imag(jdata_hat), alpha=0.2)
     recov_plot = scatter(real(recovered_symbols), imag(
         recovered_symbols), color='r', alpha=0.5)
@@ -91,10 +88,14 @@ def test_jittered_mfilt():
     xlim([-1.1, 1.1])
     title("Constellation plot of %d decoded de-jittered symbols (avg error: %.3f)" %
           (count_nonzero(recovered_symbols), mean(abs(err))));
+    savefig("figures/analysis_consellation.eps")
+    close(f)
     return True
 
+from unittest import TestCase
+class TestInstantenousFrequencyEstimation(TestCase):
+    def test_peak_suppression(self):
+        do_peak_suppression_test()
 
-print("Running Analysis tests...")
-test_peak_suppression()
-test_jittered_mfilt()
-pause()
+    def test_jittered_mfilt(self):
+        do_jittered_mfilt_test()

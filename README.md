@@ -1,7 +1,7 @@
 libsquiggly.py
 ==============
 
-Libsquiggly consists of python codes useful in all manner of ubiquitous computing.  Code is organized according to general category.  `libsquiggly` contains the code, while `tests/` contains self-check tests that simultaneously serve as examples on usage. Inside of `libsquiggly`, the code is grouped into multiple folders:
+Libsquiggly consists of python codes useful in all manner of ubiquitous computing.  Code is organized according to general category:
 
 * `instfreq/` contains all code related to instantaneous frequency estimation
 
@@ -13,5 +13,6 @@ Libsquiggly consists of python codes useful in all manner of ubiquitous computin
 
 * `util/` contains utility code such as spectrograms, logging standard output, etc...
 
+* `tests/` gives a brief demonstration of some of the abilities of this library, and generates some nice looking pictures.  Run the tests with `python setup.py test`.
 
 If you're wondering how on earth to use this code, running/perusing the examples in the `tests/` directory is a good place to start.
