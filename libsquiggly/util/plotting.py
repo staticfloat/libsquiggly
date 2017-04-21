@@ -4,7 +4,7 @@ from scipy.signal import *
 from matplotlib.pyplot import *
 from ..tfr import gckd, stft
 import sys
-ion()
+#ion()
 
 
 def imagesc(x, xstart=0, xlim=1, ystart=0, ylim=1, cbar=True):
