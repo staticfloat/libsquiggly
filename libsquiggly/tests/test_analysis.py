@@ -4,9 +4,9 @@ from numpy import *
 from scipy import *
 from matplotlib.pyplot import *
 from utils import *
-from ..analysis import *
-from ..util import *
-from ..resampling import *
+from libsquiggly.analysis import *
+from libsquiggly.util import *
+from libsquiggly.resampling import *
 
 
 def rand_quad(N):

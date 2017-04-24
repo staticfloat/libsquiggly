@@ -4,9 +4,9 @@ from numpy import *
 from scipy import *
 from scipy.signal import *
 from matplotlib.pyplot import *
-from ..util import *
-from ..resampling import *
-from ..resampling.upfirdn import upfirdn
+from libsquiggly.util import *
+from libsquiggly.resampling import *
+from libsquiggly.resampling.upfirdn import upfirdn
 
 
 def do_resampling_test(fs_start, fs_end, N=42):

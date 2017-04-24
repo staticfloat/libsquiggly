@@ -16,3 +16,5 @@ dist/
 *.dylib
 *.dll
 figures/
+run_container/
+build_container/

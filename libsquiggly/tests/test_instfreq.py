@@ -4,10 +4,10 @@ from __future__ import print_function
 from numpy import *
 from scipy import *
 from matplotlib.pyplot import *
-from .utils import *
-from ..util import *
-from ..instfreq import *
-from ..tfr import *
+from utils import *
+from libsquiggly.util import *
+from libsquiggly.instfreq import *
+from libsquiggly.tfr import *
 
 
 # Generic test harness for our instantaneous-frequency estimation code
