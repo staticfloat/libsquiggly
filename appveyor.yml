@@ -3,27 +3,35 @@ environment:
     # Python 2.7
     - PYTHON: "C:\\Python27"
       MINICONDA: C:\Miniconda
+      PYTHON_VERSION: 2.7
     - PYTHON: "C:\\Python27-x64"
       MINICONDA: C:\Miniconda
+      PYTHON_VERSION: 2.7
 
     # Python 3.4
     - PYTHON: "C:\\Python34"
       MINICONDA: C:\Miniconda3
+      PYTHON_VERSION: 3.4
     - PYTHON: "C:\\Python34-x64"
       DISTUTILS_USE_SDK: "1"
       MINICONDA: C:\Miniconda3
+      PYTHON_VERSION: 3.4
 
     # Python 3.5
     - PYTHON: "C:\\Python35"
       MINICONDA: C:\Miniconda35
+      PYTHON_VERSION: 3.5
     - PYTHON: "C:\\Python35-x64"
       MINICONDA: C:\Miniconda35
+      PYTHON_VERSION: 3.5
 
     # Python 3.6
     - PYTHON: "C:\\Python36"
       MINICONDA: C:\Miniconda36
+      PYTHON_VERSION: 3.6
     - PYTHON: "C:\\Python36-x64"
       MINICONDA: C:\Miniconda36
+      PYTHON_VERSION: 3.6
 
 install:
   # Add conda onto the path
