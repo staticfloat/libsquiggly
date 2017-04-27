@@ -46,9 +46,11 @@ install:
 build: off
 
 test_script:
+  - activate test-environment
   - "build.cmd %PYTHON%\\python.exe setup.py test"
 
 after_test:
+  - activate test-environment
   - "build.cmd %PYTHON%\\python.exe setup.py bdist_wheel"
 
 artifacts:
