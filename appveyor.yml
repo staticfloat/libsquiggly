@@ -44,3 +44,5 @@ after_test:
 artifacts:
   # bdist_wheel puts your built wheel in the dist directory
   - path: dist\*
+  # I want to see the pretty picturesss
+  - path: figures\*
