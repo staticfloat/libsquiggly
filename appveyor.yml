@@ -24,6 +24,9 @@ environment:
     - PYTHON: "C:\\Python36-x64"
       PYTHON_VERSION: 3.6
 
+init:
+  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+
 install:
   # We need wheel installed to build wheels, and pipwin for windows things
   - "%PYTHON%\\python.exe -m pip install wheel"
