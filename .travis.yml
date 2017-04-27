@@ -29,6 +29,7 @@ matrix:
 
 install:
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+          brew install freetype;
           git clone https://github.com/MacPython/terryfy;
           source terryfy/travis_tools.sh;
           get_python_environment macpython $PYTHON;
