@@ -2,19 +2,27 @@ environment:
   matrix:
     # Python 2.7
     - PYTHON: "C:\\Python27"
+      PYTHON_VERSION: 2.7
     - PYTHON: "C:\\Python27-x64"
+      PYTHON_VERSION: 2.7
 
     # Python 3.4
     - PYTHON: "C:\\Python34"
+      PYTHON_VERSION: 3.4
     - PYTHON: "C:\\Python34-x64"
+      PYTHON_VERSION: 3.4
 
     # Python 3.5
     - PYTHON: "C:\\Python35"
+      PYTHON_VERSION: 3.5
     - PYTHON: "C:\\Python35-x64"
+      PYTHON_VERSION: 3.5
 
     # Python 3.6
     - PYTHON: "C:\\Python36"
+      PYTHON_VERSION: 3.6
     - PYTHON: "C:\\Python36-x64"
+      PYTHON_VERSION: 3.6
 
 install:
   # We need wheel installed to build wheels, and pipwin for windows things
