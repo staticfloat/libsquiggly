@@ -18,7 +18,7 @@ environment:
 
 install:
   # We need wheel installed to build wheels, and pipwin for windows things
-  - %PYTHON%\\python.exe -m pip install wheel"
+  - %PYTHON%\\python.exe -m pip install wheel
   - %PYTHON%\\python.exe -m pip install "https://github.com/staticfloat/pipwin/archive/sf/the_end_of_obfuscation.tar.gz"
   # Install numpy, scipy and matplotlib from pipwin
   - %PYTHON%\\python.exe -m pipwin install numpy scipy matplotlib
