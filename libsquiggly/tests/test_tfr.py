@@ -3,7 +3,7 @@
 from numpy import *
 from scipy import *
 from matplotlib.pyplot import *
-from utils import *
+from .utils import *
 from libsquiggly.util import *
 from libsquiggly.tfr import *
 
