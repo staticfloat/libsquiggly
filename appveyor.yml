@@ -47,11 +47,11 @@ build: off
 
 test_script:
   - activate test-environment
-  - "build.cmd %PYTHON%\\python.exe setup.py test"
+  - "build.cmd python.exe setup.py test"
 
 after_test:
   - activate test-environment
-  - "build.cmd %PYTHON%\\python.exe setup.py bdist_wheel"
+  - "build.cmd python.exe setup.py bdist_wheel"
 
 artifacts:
   # bdist_wheel puts your built wheel in the dist directory
