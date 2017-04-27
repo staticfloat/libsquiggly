@@ -21,7 +21,9 @@ install:
   - "%PYTHON%\\python.exe -m pip install wheel"
   - "%PYTHON%\\python.exe -m pip install https://github.com/staticfloat/pipwin/archive/sf/the_end_of_obfuscation.tar.gz"
   # Install numpy, scipy and matplotlib from pipwin
-  - "%PYTHON%\\Scripts\\pipwin.exe install numpy scipy matplotlib"
+  - "%PYTHON%\\Scripts\\pipwin.exe install numpy"
+  - "%PYTHON%\\Scripts\\pipwin.exe install scipy"
+  - "%PYTHON%\\Scripts\\pipwin.exe install matplotlib"
 
 build: off
 
