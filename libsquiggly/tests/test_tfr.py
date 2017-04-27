@@ -4,8 +4,8 @@ from numpy import *
 from scipy import *
 from matplotlib.pyplot import *
 from .utils import *
-from libsquiggly.util import *
-from libsquiggly.tfr import *
+from ..util import *
+from ..tfr import *
 
 # Generic test harness for our instantaneous-frequency estimation code
 def do_tfr_test(x, f, sig_name):
