@@ -1,22 +1,22 @@
 environment:
   matrix:
     # Python 2.7
-    # - PYTHON: "C:\\Python27"
-    #   PYTHON_VERSION: 2.7
-    # - PYTHON: "C:\\Python27-x64"
-    #   PYTHON_VERSION: 2.7
-    #
-    # # Python 3.4
-    # - PYTHON: "C:\\Python34"
-    #   PYTHON_VERSION: 3.4
-    # - PYTHON: "C:\\Python34-x64"
-    #   PYTHON_VERSION: 3.4
-    #
-    # # Python 3.5
-    # - PYTHON: "C:\\Python35"
-    #   PYTHON_VERSION: 3.5
-    # - PYTHON: "C:\\Python35-x64"
-    #   PYTHON_VERSION: 3.5
+    - PYTHON: "C:\\Python27"
+      PYTHON_VERSION: 2.7
+    - PYTHON: "C:\\Python27-x64"
+      PYTHON_VERSION: 2.7
+    
+    # Python 3.4
+    - PYTHON: "C:\\Python34"
+      PYTHON_VERSION: 3.4
+    - PYTHON: "C:\\Python34-x64"
+      PYTHON_VERSION: 3.4
+    
+    # Python 3.5
+    - PYTHON: "C:\\Python35"
+      PYTHON_VERSION: 3.5
+    - PYTHON: "C:\\Python35-x64"
+      PYTHON_VERSION: 3.5
 
     # Python 3.6
     - PYTHON: "C:\\Python36"
@@ -40,10 +40,6 @@ test_script:
 
 after_test:
   - "build.cmd %PYTHON%\\python.exe setup.py bdist_wheel"
-
-on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
-
 
 artifacts:
   # bdist_wheel puts your built wheel in the dist directory
